@@ -2,16 +2,17 @@ const Seneca = require('seneca');
 const seneca = Seneca();
 
 //服务中心 服务注册上
-seneca.add('roll:math,cmd:sum',(msg,reply) => {
-    reply(null,{answer:(msg.left + msg.right)})
-});
+seneca.add({role: 'math', cmd: 'sum'}, function (msg, respond) {
+    var sum = msg.left + msg.right
+    respond(null, {answer: sum})
+})
 
 const homePromise = () => {
     return new Promise(function(resolve,reject){
-        seneca.act({role:'math',cmd:'sum',left:1,right:2},function(err,result){
-            console.log('得到的值',err);
+        seneca.act({role: 'math', cmd: 'sum', left: 1, right: 2}, function (err, result) {
+            console.log('错误的值',err);
             if(err){
-                resolve('Hello seneca')
+                reject(err)
             }else{
                 resolve(result)
             }
@@ -20,10 +21,10 @@ const homePromise = () => {
 }
 const senecaPromise = () => {
     return new Promise(function(resolve,reject){
-        seneca.act({role:'math',cmd:'sum',left:1,right:2},function(err,result){
-            console.log('得到的值',err);
+        seneca.act({role:'math',cmd:'sum',left:2,right:3},function(err,result){
+            console.log('错误的值',err);
             if(err){
-                resolve({data:'11'})
+                reject(err)
             }else{
                 resolve(result)
             }

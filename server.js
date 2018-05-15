@@ -6,7 +6,7 @@ const Routes = require('./routes');
 
 const server = Hapi.server({
   host:'localhost',
-  port:8000
+  port:8083
 })
 
 for(let route of Routes){
